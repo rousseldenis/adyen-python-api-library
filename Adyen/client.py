@@ -233,13 +233,12 @@ class AdyenClient(object):
             username = self.username
         elif 'username' in kwargs:
             username = kwargs.pop("username")
-        elif service == "Payout":
+        if service == "Payout":
             if any(substring in action for substring in
                    ["store", "submit"]):
                 username = self._store_payout_username(**kwargs)
             else:
                 username = self._review_payout_username(**kwargs)
-
         if not username and not xapikey:
             errorstring = """Please set your webservice username.
               You can do this by running
@@ -254,7 +253,7 @@ class AdyenClient(object):
             password = self.password
         elif 'password' in kwargs:
             password = kwargs.pop("password")
-        elif service == "Payout":
+        if service == "Payout":
             if any(substring in action for substring in
                    ["store", "submit"]):
                 password = self._store_payout_pass(**kwargs)
@@ -284,6 +283,7 @@ class AdyenClient(object):
             errorstring = "'platform' must be the value of 'live' or 'test'"
             raise ValueError(errorstring)
 
+        print(request_data)
         message = request_data
 
         if not message.get('merchantAccount'):

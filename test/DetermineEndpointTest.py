@@ -2,6 +2,7 @@ import Adyen
 import unittest
 from BaseTest import BaseTest
 from Adyen.exceptions import AdyenEndpointInvalidFormat
+from Adyen import settings
 
 
 class TestDetermineUrl(unittest.TestCase):
@@ -17,14 +18,16 @@ class TestDetermineUrl(unittest.TestCase):
         url = self.adyen.client._determine_checkout_url("live", "payments")
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
         self.assertEqual(url, "https://1797a841fbb37ca7-AdyenDemo-checkout-"
-                              "live.adyenpayments.com/checkout/v49/payments")
+                              "live.adyenpayments.com/checkout/"
+                         + settings.API_CHECKOUT_VERSION + "/payments")
 
     def test_checkout_api_url(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_checkout_url("test",
                                                         "paymentsDetails")
         self.assertEqual(url, "https://checkout-test.adyen.com"
-                              "/v49/payments/details")
+                              "/" + settings.API_CHECKOUT_VERSION
+                         + "/payments/details")
 
     def test_payments_invalid_platform(self):
 
