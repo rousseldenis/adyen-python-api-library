@@ -16,7 +16,15 @@ class TestCheckout(unittest.TestCase):
     client.platform = "test"
 
     def test_payment_methods_success_mocked(self):
-        request = {'merchantAccount': "YourMerchantAccount"}
+        request = {
+            'applicationInfo': {
+                'externalPlatform': {
+                    'name': 'PLATFORM_NAME',
+                    'version': 'PLATFORM_VERSION',
+                    'integrator': 'YOUR_COMPANY_NAME'
+                },
+            },
+            'merchantAccount': "YourMerchantAccount"}
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/"
                                                               "checkout/"
